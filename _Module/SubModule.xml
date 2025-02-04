@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+  <!--身份标识，名称，版本号，默认加载，单人游戏,模块类型 -->
+  <Id value="$moduleid$" />
+  <Name value="$modulename$" />
+  <Version value="v$version$" />
+  <DefaultModule value="false" />
+  <ModuleCategory value="Singleplayer"/>
+  <ModuleType value="Community" />
+  <Url value="$moduleurl$" />
+  <!-- 所依赖的所有其他模块及其版本要求 -->
+  <DependedModules>
+	<!-- 这两个mod加载后就进不了编辑器
+	<DependedModule Id="Harmony" DependentVersion="v2.3.3" />
+	<DependedModule Id="SandBox" DependentVersion="v1.2.12" />
+    -->
+	<DependedModule Id="Native" />
+	<DependedModule Id="SandBoxCore" DependentVersion="v1.2.12" />
+    <DependedModule Id="StoryMode" />
+    <DependedModule Id="CustomBattle" />
+  </DependedModules>
+  <DependedModuleMetadatas>
+    <DependedModuleMetadata id="Harmony" order="LoadBeforeThis" version="v2.3.3" />
+    <DependedModuleMetadata id="Native" order="LoadBeforeThis" />
+    <DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" />
+    <DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" />
+    <DependedModuleMetadata id="StoryMode" order="LoadBeforeThis" />
+    <DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" />
+  </DependedModuleMetadatas>
+  <!-- Community Dependency Metadata -->
+  <!-- 子模块的具体信息 -->
+  <SubModules>
+    <SubModule>
+      <Name value="$modulename$" />
+      <DLLName value="$moduleid$.dll" />
+      <SubModuleClassType value="$moduleid$.SubModule" />
+      <Tags />
+    </SubModule>
+  </SubModules>
+		<Xmls>
+		    <XmlNode> 
+			    <XmlName id="Items" path="beer_item" />
+			    <IncludedGameTypes>
+				    <GameType value="Campaign" />
+					<GameType value="CampaignStoryMode" />
+				    <GameType value="CustomGame" />
+				    <GameType value="EditorGame" />
+			    </IncludedGameTypes>
+		    </XmlNode>
+		</Xmls>
+</Module>

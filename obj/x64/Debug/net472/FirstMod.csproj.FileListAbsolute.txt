@@ -1,0 +1,15 @@
+D:\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\Mods\FirstMod\obj\x64\Debug\net472\FirstMod.csproj.AssemblyReference.cache
+D:\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\Mods\FirstMod\obj\x64\Debug\net472\FirstMod.GeneratedMSBuildEditorConfig.editorconfig
+D:\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\Mods\FirstMod\obj\x64\Debug\net472\FirstMod.AssemblyInfoInputs.cache
+D:\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\Mods\FirstMod\obj\x64\Debug\net472\FirstMod.AssemblyInfo.cs
+D:\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\Mods\FirstMod\obj\x64\Debug\net472\FirstMod.csproj.CoreCompileInputs.cache
+C:\Users\洋洋兮若江河\Mods\FirstMod\bin\x64\Debug\net472\FirstMod.dll
+C:\Users\洋洋兮若江河\Mods\FirstMod\bin\x64\Debug\net472\FirstMod.pdb
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net472\FirstMod.csproj.AssemblyReference.cache
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net472\FirstMod.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net472\FirstMod.AssemblyInfoInputs.cache
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net472\FirstMod.AssemblyInfo.cs
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net472\FirstMod.csproj.CoreCompileInputs.cache
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net472\FirstMod.sourcelink.json
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net472\FirstMod.dll
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net472\FirstMod.pdb

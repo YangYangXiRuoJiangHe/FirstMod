@@ -1,0 +1,13 @@
+C:\Users\洋洋兮若江河\Mods\FirstMod\bin\x64\Debug\net6\FirstMod.deps.json
+C:\Users\洋洋兮若江河\Mods\FirstMod\bin\x64\Debug\net6\FirstMod.dll
+C:\Users\洋洋兮若江河\Mods\FirstMod\bin\x64\Debug\net6\FirstMod.pdb
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net6\FirstMod.csproj.AssemblyReference.cache
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net6\FirstMod.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net6\FirstMod.AssemblyInfoInputs.cache
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net6\FirstMod.AssemblyInfo.cs
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net6\FirstMod.csproj.CoreCompileInputs.cache
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net6\FirstMod.sourcelink.json
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net6\FirstMod.dll
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net6\refint\FirstMod.dll
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net6\FirstMod.pdb
+C:\Users\洋洋兮若江河\Mods\FirstMod\obj\x64\Debug\net6\ref\FirstMod.dll
