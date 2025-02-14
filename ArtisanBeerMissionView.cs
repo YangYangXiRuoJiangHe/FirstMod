@@ -1,41 +1,100 @@
-﻿using System;
-using TaleWorlds.CampaignSystem.Party;
+﻿using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
-using TaleWorlds.InputSystem;
+using TaleWorlds.Engine.GauntletUI;
+using TaleWorlds.GauntletUI.Data;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.View.MissionViews;
 using TaleWorlds.ObjectSystem;
-
 
 namespace FirstMod
 {
-    //继承于MissionView之后使用OnMissionScreenTick（）不管用，这里使用MissionBehavior的OnMissionTick有用。
-    public class ArtisanBeerMissionView : MissionBehavior
+    public partial class ArtisanBeerMissionView : MissionView
     {
-        public override MissionBehaviorType BehaviorType => MissionBehaviorType.Other;
-        public override void OnMissionTick(float dt)
+        GauntletLayer _layer;
+        IGauntletMovie _movie;
+        ArtisanBeerMissionVM _dataSource;
+
+        public override void OnMissionScreenInitialize()
         {
-            base.OnMissionTick(dt);
-            if (Input.IsKeyPressed(TaleWorlds.InputSystem.InputKey.Q))
+            base.OnMissionScreenInitialize();
+            _dataSource = new ArtisanBeerMissionVM(Mission); // 提前初始化数据源
+            if (_layer == null && MissionScreen != null) // 确保只执行一次
             {
-                DrinkBeer();
+                _layer = new GauntletLayer(1, "GauntletLayer", false);
+                _movie = _layer.LoadMovie("ArtisanBeerHUD", _dataSource);
+                base.MissionScreen.AddLayer(_layer);
             }
+
         }
-        //通过drinkbeer回复血量
-        private void DrinkBeer()
+        public override void OnMissionScreenFinalize()
         {
-            if (!(Mission.Mode is MissionMode.Battle or MissionMode.Stealth)) return;
-            var itemRoster = MobileParty.MainParty.ItemRoster;
-            var artisanBeerObject = MBObjectManager.Instance.GetObject<ItemObject>("artisan_beer");
-            if (itemRoster.GetItemNumber(artisanBeerObject) <= 0) return;
-
-            itemRoster.AddToCounts(artisanBeerObject, -1);
-            var ma = Mission.MainAgent;
-            var oldHealth = ma.Health;
-            ma.Health += 20;
-            if (ma.Health > ma.HealthLimit) ma.Health = ma.HealthLimit;
-            InformationManager.DisplayMessage(new InformationMessage(String.Format("We healed! {0} hp",Mission.MainAgent.Health - oldHealth)));
-
+            base.OnMissionScreenFinalize();
+            base.MissionScreen.RemoveLayer(_layer);
+            _layer = null;
+            _movie = null;
+            _dataSource = null;
+        }
+        public override void OnMissionModeChange(MissionMode oldMissionMode, bool atStart)
+        {
+            base.OnMissionModeChange(oldMissionMode, atStart);
+            _dataSource?.OnMissionModeChanged(Mission);
         }
     }
+
+    public class ArtisanBeerMissionVM : ViewModel
+    {
+        Mission _mission;
+
+        public ArtisanBeerMissionVM(Mission mission)
+        {
+            _mission = mission;
+            var itemRoster = MobileParty.MainParty.ItemRoster;
+            var artisanBeerObject = MBObjectManager.Instance.GetObject<ItemObject>("artisan_beer");
+            BeerAmount = itemRoster.GetItemNumber(artisanBeerObject);
+
+
+            OnMissionModeChanged(mission);
+        }
+        public void OnMissionModeChanged(Mission mission)
+        {
+            IsVisable = mission.Mode is MissionMode.Battle or MissionMode.Stealth;
+        }
+        int _beerAmount;
+        [DataSourceProperty]
+        public int BeerAmount
+        {
+            get
+            {
+                return this._beerAmount;
+            }
+            set
+            {
+                if (value != this._beerAmount)
+                {
+                    this._beerAmount = value;
+                    base.OnPropertyChangedWithValue(value, "BeerAmount");
+                }
+            }
+        }
+        bool _isVisable;
+        [DataSourceProperty]
+        public bool IsVisable
+
+        {
+            get
+            {
+                return this._isVisable;
+            }
+            set
+            {
+                if (value != this._isVisable)
+                {
+                    this._isVisable = value;
+                    base.OnPropertyChangedWithValue(value, "IsVisable");
+                }
+            }
+        }
+    }
+
 }
