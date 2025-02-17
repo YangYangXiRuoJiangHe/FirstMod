@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Reflection.Emit;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.Settlements;
@@ -11,6 +13,42 @@ namespace FirstMod
     [HarmonyPatch(typeof(WorkshopsCampaignBehavior), "RunTownWorkshop")]
     public class WorkshopPatch
     {
+        //转译法，替换原函数的某一部分
+        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var getResultNumber = AccessTools.Method(typeof(ExplainedNumber), "get_ResultNumber");
+            var found = false;
+            foreach (var instruction in instructions)
+            {
+                yield return instruction;
+                if (instruction.opcode == OpCodes.Call && instruction.operand == (object)getResultNumber)
+                {
+                    if(found)
+                        throw new ArgumentException("Find multiple ExplainedNumber::get_ResultNumber in WorkshopsCampaignBehavior.RunTownWorkshop");
+                    yield return new CodeInstruction(OpCodes.Ldarg_2, null);
+                    yield return new CodeInstruction(OpCodes.Call, 
+                        AccessTools.Method(typeof(ArtisanBeerBehavior), nameof(ArtisanBeerBehavior.WorkshopProductionEfficiency)));
+                    yield return new CodeInstruction(OpCodes.Mul, null);
+                    //yield return new CodeInstruction(OpCodes.Call, m_MyExtraMethod);
+                    found = true;
+                }
+            }
+            if (found is false)
+                throw new ArgumentException("Cannot find ExplainedNumber::get_ResultNumber in WorkshopsCampaignBehavior.RunTownWorkshop");
+        }
+
+        //前缀法，返回false不执行原函数，返回true会在执行后执行原函数
+        /*public static bool Prepare()
+        {
+            var method = typeof(WorkshopsCampaignBehavior).GetMethod("RunTownWorkshop");
+            if (method == null)
+            {
+                Console.WriteLine("目标方法 RunTownWorkshop 未找到。");
+                return false;
+            }
+            return true;
+        }
+
         public static bool Prefix(Town townComponent, Workshop workshop, WorkshopsCampaignBehavior __instance)
         {
             WorkshopType workshopType = workshop.WorkshopType;
@@ -22,7 +60,7 @@ namespace FirstMod
                 {
                     num = 1f;
                 }
-                num += (Campaign.Current.Models.WorkshopModel.GetEffectiveConversionSpeedOfProduction(workshop, workshopType.Productions[i].ConversionSpeed, false).ResultNumber) * 0.1f;
+                num += (Campaign.Current.Models.WorkshopModel.GetEffectiveConversionSpeedOfProduction(workshop, workshopType.Productions[i].ConversionSpeed, false).ResultNumber) * ArtisanBeerBehavior.WorkshopProductionEfficiency(workshop);
                 if (num >= 1f)
                 {
                     bool flag2 = true;
@@ -46,54 +84,6 @@ namespace FirstMod
                 workshop.UpdateLastRunTime();
             }
             return false;
-        }
-        //自有方法反射调用
-        //static bool Prefix(Town townComponent, Workshop workshop)
-        //{
-        //    WorkshopType workshopType = workshop.WorkshopType;
-        //    bool flag = false;
-        //    for (int i = 0; i < workshopType.Productions.Count; i++)
-        //    {
-        //        float num = workshop.GetProductionProgress(i);
-        //        if (num > 1f)
-        //        {
-        //            num = 1f;
-        //        }
-        //        num += Campaign.Current.Models.WorkshopModel.GetEffectiveConversionSpeedOfProduction(workshop, workshopType.Productions[i].ConversionSpeed, false).ResultNumber;
-        //        if (num >= 1f)
-        //        {
-        //            bool flag2 = true;
-        //            while (flag2 && num >= 1f)
-        //            {
-        //                // 假设SomeClass是包含所需方法的类
-        //                WorkshopsCampaignBehavior behaviorInstance = Campaign.Current.GetCampaignBehavior<WorkshopsCampaignBehavior>();
-        //                Type someClassType = typeof(WorkshopsCampaignBehavior);
-        //                string methodName = workshop.Owner == Hero.MainHero ? "TickOneProductionCycleForPlayerWorkshop" : "TickOneProductionCycleForNotableWorkshop";
-        //                MethodInfo methodInfo = someClassType.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance, null, new[] { typeof(Production), typeof(Workshop) }, null);
-
-        //                if (methodInfo != null)
-        //                {
-        //                    // 准备参数
-        //                    var parameters = new object[] { workshopType.Productions[i], workshop };
-
-        //                    // 调用方法并传递参数
-        //                    flag2 = (bool)methodInfo.Invoke(behaviorInstance, parameters);
-        //                }
-
-        //                if (flag2)
-        //                {
-        //                    flag = true;
-        //                }
-        //                num -= 1f;
-        //            }
-        //        }
-        //        workshop.SetProgress(i, num);
-        //    }
-        //    if (flag)
-        //    {
-        //        workshop.UpdateLastRunTime();
-        //    }
-        //    return false;
-        //}
+        }*/
     }
 }

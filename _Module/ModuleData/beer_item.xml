@@ -3,7 +3,7 @@
 <!-- 当ID重复时，实际上会覆盖游戏中同ID的东西，因为先加载的是Mod的配置文件,对于配置文件，用一个表来描述会使结构更加间接明了-->
 <Item
 		id="artisan_beer"
-		name="Artisan Beer"
+		name="{=VQC5F9cAEJDJN}Artisan Beer"
 		mesh="artisan_beer_mesh"
 		item_category="artisan_beer"
 		IsFood="false"

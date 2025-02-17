@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View.Screens;
@@ -16,6 +17,7 @@ namespace FirstMod
             base.OnSubModuleLoad();
             Harmony harmony = new Harmony("artisan_beer");
             harmony.PatchAll();
+            harmony.Patch(AccessTools.Method(typeof(WorkshopsCampaignBehavior), "RunTownWorkshop"),transpiler : new HarmonyMethod(typeof(WorkshopPatch), "Transpiler"));
 
         }
         //任务行为初始化

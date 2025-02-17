@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+	<tags>
+		<tag language="English" />
+	</tags>
+	<strings>
+		<string id="qtG7pyrmCHsAo" text="Take items from the workshoy." />
+		<string id="n4dDMtYw" text="inventory"/>
+	    <string id="wifqg5jW" text="brewery"/>
+	    <string id="AkxMrZYl" text="Take"/>
+	    <string id="sJhArbxpxwTXm" text="Manage Workshop"/>
+	    <string id="CeABmaJ7vbt7M" text="Go to Brewery"/>
+	    <string id="VQC5F9cAEJDJN" text="Artisan Beer"/>
+	    <string id="I4M2yOAvsBxsl" text="Artisan Brewer"/>
+	    <string id="MW3wUeJ4cNn9u" text="Artisan Beer"/>
+	    <string id="lIhzP2TNWwE0G" text="Regular Beer"/>
+	    <string id="OKNK41jjzTCIV" text="Brewer Management"/>
+	    <string id="2tY9SOU7RdtA9" text="Production Ratio"/>
+	    <string id="7M6DKdL151Z14" text="Do you sell craft beer here?"/>
+		<string id="SnWwIzy1Xoolj" text="Of course, but not to outsiders."/>
+		<string id="fTBNShSgOvGA5" text="Everything here is mixed with industrial alcohol, specially sold to the roughnecks. I wouldn't dare sell it to someone like you, brave warrior."/>
+		<string id="byiWUigMZlWX1" text="Good day, sir. Would you like to buy some craft beer here? Unfortunately, we are out of stock. Please come back another time."/>
+		<string id="lsfS1ci6qZMlY" text="Good day, sir. Would you like to buy some craft beer? It's just {PRICE}{GOLD_ICON} per glass."/>
+		<string id="GZ6Skt2ybJCTE" text="Yes, I would like to get one."/>
+		<string id="MFhuTvPsKxAdK" text="Not enough money."/>
+		<string id="3eD6YFNh7UNJC" text="Thank you for your generosity."/>
+		<string id="pi9RV7pDcNQdV" text="Not buying."/>
+		<string id="fPb6qFLjpA56B" text="Alright, best of luck to you."/>
+	</strings>
+</base>

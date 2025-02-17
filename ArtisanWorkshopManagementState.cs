@@ -3,6 +3,7 @@ using TaleWorlds.CampaignSystem.Settlements.Workshops;
 using TaleWorlds.Core;
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.ScreenSystem;
 
@@ -120,6 +121,18 @@ namespace FirstMod
                 }
             }
         }
+        [DataSourceProperty]
+        public string CancelLabel => GameTexts.FindText("str_cancel", null).ToString();
+        [DataSourceProperty]
+        public string DoneLabel => GameTexts.FindText("str_done", null).ToString();
+        [DataSourceProperty]
+        public string ArtisanBeerLable => new TextObject("{=MW3wUeJ4cNn9u}Artisan Beer", null).ToString();
+        [DataSourceProperty]
+        public string RegularBeerLable => new TextObject("{=lIhzP2TNWwE0G}Regular Beer", null).ToString();
+        [DataSourceProperty]
+        public string TitleText => new TextObject("{=OKNK41jjzTCIV}Brewer Management", null).ToString();
+        [DataSourceProperty]
+        public string ProductionRatioLable => new TextObject("{=2tY9SOU7RdtA9}Production Ratio", null).ToString();
         public void ExecuteCancel()
         {
             GameStateManager.Current.PopState();

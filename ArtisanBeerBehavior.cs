@@ -47,12 +47,14 @@ namespace FirstMod
 
         ItemObject _artisanBeer;
         CharacterObject _artisanBrewer;
+        static public ArtisanBeerBehavior instance;
         private void OnSessionLaunched(CampaignGameStarter starter)
         {
             _artisanBeer = MBObjectManager.Instance.GetObject<ItemObject>("artisan_beer");
             _artisanBrewer = MBObjectManager.Instance.GetObject<CharacterObject>("artisan_brewer");
             this.AddDialogs(starter);
             AddGameMenus(starter);
+            instance = this;
         }
 
         private void AddGameMenus(CampaignGameStarter starter)
@@ -61,9 +63,9 @@ namespace FirstMod
             {
                 AddWorkshopButton(starter,i);
             }
-            starter.AddGameMenu("town_workshop", "酿酒厂",  (MenuCallbackArgs args) => { },
+            starter.AddGameMenu("town_workshop", "{=wifqg5jW}brewery",  (MenuCallbackArgs args) => { },
                 GameOverlays.MenuOverlayType.SettlementWithBoth);
-            starter.AddGameMenuOption("town_workshop", "town_workshop_inventory", "库存", (MenuCallbackArgs args) =>
+            starter.AddGameMenuOption("town_workshop", "town_workshop_inventory", "{=n4dDMtYw}inventory", (MenuCallbackArgs args) =>
             {
                 args.optionLeaveType = GameMenuOption.LeaveType.Trade;
                 return true;
@@ -76,25 +78,25 @@ namespace FirstMod
                     list.Add(new InquiryElement(_artisanBeer, _artisanBeer.Name.ToString(), new ImageIdentifier(_artisanBeer)));
                 }
                 MultiSelectionInquiryData data = new MultiSelectionInquiryData(
-                    "库存",
-                    "选择一个物品",
+                    new TextObject("{=n4dDMtYw}inventory", null).ToString(),
+                    new TextObject("{=qtG7pyrmCHsAo}Take items from the workshop inventory.",null).ToString(),
                     list,
                     true,
                     1,
                     1000,
-                    "Take",
-                    "离开",
+                    new TextObject("{=AkxMrZYl}Take",null).ToString(),
+                    "{=3sRdGQou}Leave",
                     (List<InquiryElement> list) =>
                     {
                         var artisanWorkshop = ArtisanWorkshop(_selectedWorkshop);
                         artisanWorkshop.AddToStock(-list.Count);
                         MobileParty.MainParty.ItemRoster.AddToCounts(_artisanBeer, list.Count);
                     },
-                    (List<InquiryElement> list) =>{ }
+                    (List<InquiryElement> list) => { }
                 );
                 MBInformationManager.ShowMultiSelectionInquiry(data, false);
             });
-            starter.AddGameMenuOption("town_workshop","wotn_workshop_management","Manage Workshop",(MenuCallbackArgs args) =>
+            starter.AddGameMenuOption("town_workshop","wotn_workshop_management", "{=sJhArbxpxwTXm}Manage Workshop", (MenuCallbackArgs args) =>
             {
                 args.optionLeaveType = GameMenuOption.LeaveType.Submenu;
                 return true;
@@ -102,7 +104,7 @@ namespace FirstMod
             {
                 GameStateManager.Current.PushState(GameStateManager.Current.CreateState<ArtisanWorkshopManagementState>(_selectedWorkshop,ArtisanWorkshop(_selectedWorkshop)));
             });
-            starter.AddGameMenuOption("town_workshop", "town_workshop_id", "离开", (MenuCallbackArgs args) =>
+            starter.AddGameMenuOption("town_workshop", "town_workshop_id", "{=3sRdGQou}Leave", (MenuCallbackArgs args) =>
             {
                 args.optionLeaveType = GameMenuOption.LeaveType.Leave;
                 return true;
@@ -111,7 +113,7 @@ namespace FirstMod
         Workshop _selectedWorkshop;
         private void AddWorkshopButton(CampaignGameStarter starter,int i)
         {
-            starter.AddGameMenuOption("town", "town_workshop" + i, " 管理" +i+ "号酿酒厂",
+            starter.AddGameMenuOption("town", "town_workshop" + i, "{=CeABmaJ7vbt7M}Go to Brewery" + i,
                             (MenuCallbackArgs args) =>
                             {
                                 args.optionLeaveType = GameMenuOption.LeaveType.Submenu;
@@ -167,8 +169,8 @@ namespace FirstMod
         private void AddDialogs(CampaignGameStarter starter)
         {
             {
-                starter.AddPlayerLine("tavernkeeper_talk_ask_artisan_beer", "tavernkeeper_talk", "tavernkeeper_artisan_beer", "你这有手工啤酒卖吗?", null, null);
-                starter.AddDialogLine("tavernkeeper_talk_artisan_beer_a", "tavernkeeper_artisan_beer", "tavernkeeper_talk", "当然有，但不出售给外人", () =>
+                starter.AddPlayerLine("tavernkeeper_talk_ask_artisan_beer", "tavernkeeper_talk", "tavernkeeper_artisan_beer", "{=7M6DKdL151Z14}Do you sell craft beer here?", null, null);
+                starter.AddDialogLine("tavernkeeper_talk_artisan_beer_a", "tavernkeeper_artisan_beer", "tavernkeeper_talk", "{=SnWwIzy1Xoolj}Of course, but not to outsiders.", () =>
                 {
                     foreach (var workshop in Settlement.CurrentSettlement.Town.Workshops)
                     {
@@ -176,16 +178,18 @@ namespace FirstMod
                     }
                     return false;
                 }, null);
-                starter.AddDialogLine("tavernkeeper_talk_artisan_beer_b", "tavernkeeper_artisan_beer", "tavernkeeper_talk", "我这全是工业酒精勾兑的，专卖给那些大老粗，向您这样的勇士，我可不敢卖给您", null, null);
+                starter.AddDialogLine("tavernkeeper_talk_artisan_beer_b", "tavernkeeper_artisan_beer", "tavernkeeper_talk", "{=fTBNShSgOvGA5}Everything here is mixed with industrial alcohol, specially sold to the roughnecks. I wouldn't dare sell it to someone like you, brave warrior.", null, null);
             }
             {
-                starter.AddDialogLine("artisan_brewer_talk_outofstock", "start", "end", "日安先生，您想要在这买一些手工啤酒吗？不幸的是我们没有库存了，请之后再来",
+                starter.AddDialogLine("artisan_brewer_talk_outofstock", "start", "end", "{=byiWUigMZlWX1}Good day, sir. Would you like to buy some craft beer here? Unfortunately, we are out of stock. Please come back another time.",
                     //() => CharacterObject.OneToOneConversationCharacter.Occupation == Occupation.Tavernkeeper, null);
                     () => CharacterObject.OneToOneConversationCharacter == _artisanBrewer && ConversationArtisanWorkshopStock() <= 0, null);
-                starter.AddDialogLine("artisan_brewer_talk_instock", "start", "artisan_brewer", "日安先生，您想要购买一些手工啤酒吗？只要200枚金币一瓶",
-                    () => CharacterObject.OneToOneConversationCharacter == _artisanBrewer, null);
-
-                starter.AddPlayerLine("artisan_brewer_buy", "artisan_brewer", "artisan_brewer_purchaced", "是的，我想拿一个", null, () => {
+                starter.AddDialogLine("artisan_brewer_talk_instock", "start", "artisan_brewer", "{=lsfS1ci6qZMlY}Howdy，Would you like to buy some craft beer？One mug is {PRICE}{GOLD_ICON}",
+                    () => {
+                        MBTextManager.SetTextVariable("PRICE", 400);
+                        return CharacterObject.OneToOneConversationCharacter == _artisanBrewer;
+                    }, null);
+                starter.AddPlayerLine("artisan_brewer_buy", "artisan_brewer", "artisan_brewer_purchaced", "{=GZ6Skt2ybJCTE}Yes, I would like to get one.", null, () => {
                     Hero.MainHero.ChangeHeroGold(-200);
                     MobileParty.MainParty.ItemRoster.AddToCounts(_artisanBeer, 1);
                     var artisanworkshop = ConversationArtisanWorkshop();
@@ -194,7 +198,7 @@ namespace FirstMod
                 {
                     if (Hero.MainHero.Gold < 200)
                     {
-                        explanation = new TextObject("没有足够的钱");
+                        explanation = new TextObject("{=MFhuTvPsKxAdK}Not enough money.");
                         return false;
                     }
                     else
@@ -203,11 +207,11 @@ namespace FirstMod
                         return true;
                     }
                 });
-                starter.AddDialogLine("artisan_brewer_thanks_for_business", "artisan_brewer_purchaced", "end", "感谢您的慷慨！", null, null);
+                starter.AddDialogLine("artisan_brewer_thanks_for_business", "artisan_brewer_purchaced", "end", "{=3eD6YFNh7UNJC}Thank you for your generosity！", null, null);
 
 
-                starter.AddPlayerLine("artisan_brewer_buy_refuse", "artisan_brewer", "artisan_brewer_declined", "不买", null, null);
-                starter.AddDialogLine("artisan_brewer_your_loss", "artisan_brewer_declined", "end", "好吧，那祝你一切顺利", null, null);
+                starter.AddPlayerLine("artisan_brewer_buy_refuse", "artisan_brewer", "artisan_brewer_declined", "{=pi9RV7pDcNQdV}Not buying.", null, null);
+                starter.AddDialogLine("artisan_brewer_your_loss", "artisan_brewer_declined", "end", "{=fPb6qFLjpA56B}Alright, best of luck to you.", null, null);
 
 
             }
@@ -281,6 +285,15 @@ namespace FirstMod
         //{
         //}
 
+        static public float WorkshopProductionEfficiency(Workshop workshop)
+        {
+            if(workshop.WorkshopType.StringId != "brewery")
+            {
+                return 1.0f;
+            }
+            var artisanWorkshop = instance.ArtisanWorkshop(workshop);
+            return 1.2f - artisanWorkshop.dailyProductionAmount * 0.2f;
+        }
         public ArtisanWorkshopState ArtisanWorkshop(Workshop workshop)
         {
             string id = workshop.Settlement.StringId + "_" + workshop.Tag;
