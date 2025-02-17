@@ -7,3 +7,5 @@ ArtisanBeerBehavior : Brewer's salary
 ArtisanBeerMissionView : drink Artisan__beer + Hp
 
 WorkshopPatch : apply a patch to the project
+
+Localization: Add text localization to enable translation
